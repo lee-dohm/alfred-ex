@@ -34,7 +34,7 @@ defmodule Alfred.Mixfile do
 
   def docs do
     [
-      main: "Alfred",
+      main: "README",
       extras: ["README.md", "LICENSE.md"]
     ]
   end
