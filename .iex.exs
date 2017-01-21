@@ -1,0 +1,1 @@
+alias Alfred.Result
