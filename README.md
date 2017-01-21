@@ -21,6 +21,7 @@ This project follows the [GitHub "scripts to rule them all" pattern](http://gith
 * `script/test` &mdash; Runs automated tests
 * `script/console` &mdash; Opens the development console
 * `script/docs` &mdash; Generates developer documentation which can be opened at `doc/index.html`
+* `script/publish` &mdash; Publishes a new version to [Hex](https://hex.pm)
 
 ## Copyright
 
