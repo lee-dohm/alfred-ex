@@ -79,4 +79,18 @@ defmodule Alfred.Result.Test do
     assert result.autocomplete == "title"
     assert result.quicklookurl == "http://www.example.com"
   end
+
+  test "converting a single result to JSON wraps it in the expected structure" do
+    result = Result.new("title", "subtitle")
+    {:ok, json} = Result.to_json(result)
+
+    assert json == "{\"items\":[{\"title\":\"title\",\"subtitle\":\"subtitle\"}]}"
+  end
+
+  test "converting a list of results to JSON embeds them properly" do
+    result = Result.new("title", "subtitle")
+    {:ok, json} = Result.to_json([result, result, result])
+
+    assert json == "{\"items\":[{\"title\":\"title\",\"subtitle\":\"subtitle\"},{\"title\":\"title\",\"subtitle\":\"subtitle\"},{\"title\":\"title\",\"subtitle\":\"subtitle\"}]}"
+  end
 end

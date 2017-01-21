@@ -62,6 +62,14 @@ defmodule Alfred.Result do
   """
   def new_url(title, url), do: new(title, url, arg: url, autocomplete: title, quicklookurl: url, uid: url)
 
+  @doc """
+  Converts the results to the [expected JSON output format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/).
+  """
+  def to_json(results) do
+    %{"items" => convert(result)}
+    |> Poison.encode
+  end
+
   defp add_options(struct, []), do: struct
   defp add_options(struct, [{:uid, value} | rest]), do: add_options(add_uid_option(struct, value), rest)
   defp add_options(struct, [{:valid, value} | rest]), do: add_options(add_valid_option(struct, value), rest)
@@ -79,5 +87,20 @@ defmodule Alfred.Result do
       "" -> raise ArgumentError, "#{arg_name} cannot be blank"
       _ -> nil
     end
+  end
+
+  defp convert(list, []), do: Enum.reverse(list)
+  defp convert(list, [head | rest]), do: convert([convert_item(head) | list], rest)
+
+  defp convert(list) when is_list(list), do: convert([], list)
+  defp convert(item), do: convert([], [item])
+
+  defp convert_item(struct) do
+    Enum.reduce(Map.keys(struct), %{}, fn(key, map) ->
+      case Map.get(struct, key) do
+        nil -> map
+        value -> Map.put(map, key, value)
+      end
+    end)
   end
 end
