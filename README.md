@@ -13,6 +13,15 @@ def deps do
 end
 ```
 
+## Development
+
+This project follows the [GitHub "scripts to rule them all" pattern](http://githubengineering.com/scripts-to-rule-them-all/). The contents of the `script` directory are scripts that cover all common tasks:
+
+* `script/bootstrap` &mdash; Installs all prerequisites for a development machine
+* `script/test` &mdash; Runs automated tests
+* `script/console` &mdash; Opens the development console
+* `script/docs` &mdash; Generates developer documentation which can be opened at `doc/index.html`
+
 ## Copyright
 
 Copyright &copy; 2017 by [Lee Dohm](http://www.lee-dohm.com). See [LICENSE](https://raw.githubusercontent.com/lee-dohm/alfred.ex/master/LICENSE.md) for details.
