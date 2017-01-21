@@ -66,7 +66,7 @@ defmodule Alfred.Result do
   Converts the results to the [expected JSON output format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/).
   """
   def to_json(results) do
-    %{"items" => convert(result)}
+    %{"items" => convert(results)}
     |> Poison.encode
   end
 
