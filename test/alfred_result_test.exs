@@ -67,4 +67,16 @@ defmodule Alfred.Result.Test do
       Result.new("title", "subtitle", uid: 5)
     end
   end
+
+  test "creating a new URL result works" do
+    result = Result.new_url("title", "http://www.example.com")
+
+    assert %Result{} = result
+    assert result.title == "title"
+    assert result.subtitle == "http://www.example.com"
+    assert result.arg == "http://www.example.com"
+    assert result.uid == "http://www.example.com"
+    assert result.autocomplete == "title"
+    assert result.quicklookurl == "http://www.example.com"
+  end
 end

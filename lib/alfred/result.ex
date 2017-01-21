@@ -48,6 +48,20 @@ defmodule Alfred.Result do
     |> add_options(options)
   end
 
+  @doc """
+  Creates a new URL result.
+
+  ## Examples
+
+  Basic URL result:
+
+      iex> Alfred.Result.new_url("title", "http://www.example.com")
+      %Alfred.Result{arg: "http://www.example.com", autocomplete: "title",
+      quicklookurl: "http://www.example.com", subtitle: "http://www.example.com", title: "title",
+      uid: "http://www.example.com", valid: nil}
+  """
+  def new_url(title, url), do: new(title, url, arg: url, autocomplete: title, quicklookurl: url, uid: url)
+
   defp add_options(struct, []), do: struct
   defp add_options(struct, [{:uid, value} | rest]), do: add_options(add_uid_option(struct, value), rest)
   defp add_options(struct, [{:valid, value} | rest]), do: add_options(add_valid_option(struct, value), rest)
