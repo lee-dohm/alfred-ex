@@ -56,16 +56,15 @@ defmodule Alfred.Result.Test do
     assert result.valid == false
   end
 
-  test "when valid is set to true it does not appear in the struct" do
-    result = Result.new("title", "subtitle", valid: true)
-
-    assert %Result{} = result
-    refute Map.has_key?(result, :valid)
-  end
-
   test "an error is raised when valid is not a Boolean value" do
     assert_raise ArgumentError, fn ->
       Result.new("title", "subtitle", valid: 5)
+    end
+  end
+
+  test "an error is raised when uid is not a string value" do
+    assert_raise ArgumentError, fn ->
+      Result.new("title", "subtitle", uid: 5)
     end
   end
 end
