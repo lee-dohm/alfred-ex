@@ -41,6 +41,20 @@ defmodule Alfred.Mixfile do
 
   def package do
     [
+      files: [
+        "lib",
+        "priv",
+        "mix.exs",
+        "README*",
+        "readme*",
+        "LICENSE*",
+        "license*",
+        "CHANGELOG*",
+        "changelog*",
+        "src",
+        "VERSION*",
+        "version*"
+      ],
       licenses: ["MIT"],
       maintainers: ["Lee Dohm"],
       links: %{"GitHub" => "https://github.com/lee-dohm/alfred.ex"}
