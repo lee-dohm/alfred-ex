@@ -43,17 +43,11 @@ defmodule Alfred.Mixfile do
     [
       files: [
         "lib",
-        "priv",
         "mix.exs",
         "README*",
-        "readme*",
         "LICENSE*",
-        "license*",
         "CHANGELOG*",
-        "changelog*",
-        "src",
-        "VERSION*",
-        "version*"
+        "VERSION*"
       ],
       licenses: ["MIT"],
       maintainers: ["Lee Dohm"],
