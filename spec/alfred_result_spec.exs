@@ -3,6 +3,7 @@ defmodule Alfred.Result.Test do
   doctest Alfred.Result
 
   alias Alfred.Result
+  import Spec.Helpers
 
   describe "constructing a basic result" do
     it "works" do
@@ -78,14 +79,14 @@ defmodule Alfred.Result.Test do
       result = Result.new("title", "subtitle")
       {:ok, json} = Result.to_json(result)
 
-      expect json |> to(eq "{\"items\":[{\"title\":\"title\",\"subtitle\":\"subtitle\"}]}")
+      expect json |> to(eq fixture("single-result.txt"))
     end
 
     it "formats a list of results properly" do
       result = Result.new("title", "subtitle")
       {:ok, json} = Result.to_json([result, result, result])
 
-      expect json |> to(eq "{\"items\":[{\"title\":\"title\",\"subtitle\":\"subtitle\"},{\"title\":\"title\",\"subtitle\":\"subtitle\"},{\"title\":\"title\",\"subtitle\":\"subtitle\"}]}")
+      expect json |> to(eq fixture("multiple-results.txt"))
     end
   end
 end
