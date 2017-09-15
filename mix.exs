@@ -28,7 +28,7 @@ defmodule Alfred.Mixfile do
   def deps do
     [
       {:poison, "~> 3.1"},
-      {:ex_doc, "~> 0.14.5", only: :dev}
+      {:ex_doc, "> 0.0.0", only: :dev, runtime: false}
     ]
   end
 
