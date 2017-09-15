@@ -9,7 +9,7 @@ defmodule Alfred.Mixfile do
       source_url: "https://github.com/lee-dohm/alfred.ex",
       app: :alfred,
       version: @version,
-      elixir: "~> 1.4",
+      elixir: "~> 1.5",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       description: "Library for integrating with Alfred: http://www.alfredapp.com",
