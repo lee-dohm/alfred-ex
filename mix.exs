@@ -15,7 +15,8 @@ defmodule Alfred.Mixfile do
       description: "Library for integrating with Alfred: http://www.alfredapp.com",
       deps: deps(),
       docs: docs(),
-      package: package()
+      package: package(),
+      preferred_cli_env: [espec: :test]
     ]
   end
 
@@ -29,7 +30,8 @@ defmodule Alfred.Mixfile do
     [
       {:poison, "~> 3.1"},
       {:cmark, "> 0.0.0", only: :dev},
-      {:ex_doc, "> 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, "> 0.0.0", only: :dev, runtime: false},
+      {:espec, "~> 1.4.6", only: :test}
     ]
   end
 
