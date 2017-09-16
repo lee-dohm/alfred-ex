@@ -35,6 +35,7 @@ defmodule Alfred.Result do
       iex> Alfred.Result.new("title", "subtitle", arg: "output", valid: false, uid: "test")
       %Alfred.Result{arg: "output", subtitle: "subtitle", title: "title", uid: "test", valid: false}
   """
+  @spec new(String.t, String.t, Keyword.t) :: t
   def new(title, subtitle, options \\ [])
 
   def new(nil, _, _), do: raise ArgumentError, "Result title is required"
@@ -60,11 +61,13 @@ defmodule Alfred.Result do
       quicklookurl: "http://www.example.com", subtitle: "http://www.example.com", title: "title",
       uid: "http://www.example.com", valid: nil}
   """
+  @spec new_url(String.t, String.t) :: t
   def new_url(title, url), do: new(title, url, arg: url, autocomplete: title, quicklookurl: url, uid: url)
 
   @doc """
   Converts the results to the [expected JSON output format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/).
   """
+  @spec to_json(t) :: String.t
   def to_json(results) do
     %{"items" => convert(results)}
     |> Poison.encode
