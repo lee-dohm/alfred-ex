@@ -75,18 +75,25 @@ defmodule Alfred.Result.Test do
   end
 
   describe "converting to JSON" do
-    it "formats a single result properly" do
+    it "handles a single result" do
       result = Result.new("title", "subtitle")
       {:ok, json} = Result.to_json(result)
 
       expect json |> to(eq fixture("single-result.txt"))
     end
 
-    it "formats a list of results properly" do
+    it "handles a list of results" do
       result = Result.new("title", "subtitle")
       {:ok, json} = Result.to_json([result, result, result])
 
       expect json |> to(eq fixture("multiple-results.txt"))
+    end
+
+    it "emits only keys with values that are not nil" do
+      result = Result.new("title", "subtitle", uid: "foo", autocomplete: nil)
+      {:ok, json} = Result.to_json(result)
+
+      expect json |> to(eq fixture("result-with-uid.txt"))
     end
   end
 end
