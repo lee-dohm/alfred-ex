@@ -6,7 +6,7 @@ defmodule Alfred.Mixfile do
   def project do
     [
       name: "Alfred",
-      source_url: "https://github.com/lee-dohm/alfred.ex",
+      source_url: "https://github.com/lee-dohm/alfred-ex",
       app: :alfred,
       version: @version,
       elixir: "~> 1.5",
@@ -54,7 +54,7 @@ defmodule Alfred.Mixfile do
       ],
       licenses: ["MIT"],
       maintainers: ["Lee Dohm"],
-      links: %{"GitHub" => "https://github.com/lee-dohm/alfred.ex"}
+      links: %{"GitHub" => "https://github.com/lee-dohm/alfred-ex"}
     ]
   end
 end
