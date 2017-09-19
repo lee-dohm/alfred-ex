@@ -15,6 +15,8 @@ defmodule Alfred.Result do
   **See:** [Script Filter JSON Format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/)
   """
 
+  alias Alfred.ResultList
+
   @type t :: %__MODULE__{arg: String.t, autocomplete: String.t, quicklookurl: String.t,
                          title: String.t, subtitle: String.t, uid: String.t, valid: boolean}
 
@@ -69,8 +71,9 @@ defmodule Alfred.Result do
   """
   @spec to_json(t) :: String.t
   def to_json(results) do
-    %{"items" => convert(results)}
-    |> Poison.encode
+    results
+    |> ResultList.new
+    |> ResultList.to_json
   end
 
   defp add_options(struct, []), do: struct
@@ -90,20 +93,5 @@ defmodule Alfred.Result do
       "" -> raise ArgumentError, "#{arg_name} cannot be blank"
       _ -> nil
     end
-  end
-
-  defp convert(list, []), do: Enum.reverse(list)
-  defp convert(list, [head | rest]), do: convert([convert_item(head) | list], rest)
-
-  defp convert(list) when is_list(list), do: convert([], list)
-  defp convert(item), do: convert([], [item])
-
-  defp convert_item(struct) do
-    Enum.reduce(Map.keys(struct), %{}, fn(key, map) ->
-      case Map.get(struct, key) do
-        nil -> map
-        value -> Map.put(map, key, value)
-      end
-    end)
   end
 end
