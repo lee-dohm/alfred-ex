@@ -50,6 +50,7 @@ defmodule Alfred.Mixfile do
         "README*",
         "LICENSE*",
         "CHANGELOG*",
+        "CODE_OF_CONDUCT*",
         "VERSION*"
       ],
       licenses: ["MIT"],
