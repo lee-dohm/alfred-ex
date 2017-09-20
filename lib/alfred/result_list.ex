@@ -37,14 +37,16 @@ defmodule Alfred.ResultList do
   Creating a list of items and including variables.
 
       iex> result = Alfred.Result.new("title", "subtitle")
-      iex> Alfred.ResultList.new([result, result, result], %{foo: "bar"})
+      iex> Alfred.ResultList.new([result, result, result], variables: %{foo: "bar"})
       %Alfred.ResultList{items: [%Alfred.Result{subtitle: "subtitle", title: "title"},
         %Alfred.Result{subtitle: "subtitle", title: "title"},
         %Alfred.Result{subtitle: "subtitle", title: "title"}],
        variables: %{foo: "bar"}}
   """
-  def new(items \\ [], variables \\ %{}, options \\ []) do
+  def new(items \\ [], options \\ []) do
+    variables = Keyword.get(options, :variables, %{})
     rerun = Keyword.get(options, :rerun)
+
     unless is_number(rerun) or is_nil(rerun), do: raise ArgumentError, "rerun must be a number or nil"
     if is_number(rerun) and (rerun < 1.0 or rerun > 5.0), do: raise ArgumentError, "rerun must be between 1.0 and 5.0 inclusive"
 
