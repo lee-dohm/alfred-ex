@@ -19,6 +19,7 @@ defmodule Alfred.ResultList do
       iex> Alfred.ResultList.new(Alfred.Result.new("title", "subtitle"))
       %Alfred.ResultList{items: [%Alfred.Result{subtitle: "subtitle", title: "title"}]}
   """
+  @spec new(Result.t) :: t
   def new(item) when is_map(item), do: new([item])
 
   @doc """
@@ -59,6 +60,7 @@ defmodule Alfred.ResultList do
        rerun: 3.0,
        variables: %{foo: "bar"}}
   """
+  @spec new([Result.t], Keyword.t) :: t
   def new(items \\ [], options \\ []) when is_list(items) do
     variables = Keyword.get(options, :variables, %{})
     rerun = Keyword.get(options, :rerun)
@@ -78,6 +80,7 @@ defmodule Alfred.ResultList do
   Converts the given list to the
   [expected JSON output format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/).
   """
+  @spec to_json(t) :: String.t
   def to_json(list) do
     list
     |> convert_result_list
