@@ -24,9 +24,15 @@ defmodule Alfred.ResultList do
   @doc """
   Creates a new result list.
 
+  ## Options
+
+  * `:rerun` &mdash; Instructs Alfred to rerun the script every given number of seconds, must be
+  between 1.0 and 5.0 inclusive
+  * `:variables` &mdash; A `Map` of variables to return with the result list
+
   ## Examples
 
-  Creating a list of items.
+  Creating a list of items:
 
       iex> result = Alfred.Result.new("title", "subtitle")
       iex> Alfred.ResultList.new([result, result, result])
@@ -34,13 +40,23 @@ defmodule Alfred.ResultList do
         %Alfred.Result{subtitle: "subtitle", title: "title"},
         %Alfred.Result{subtitle: "subtitle", title: "title"}]}
 
-  Creating a list of items and including variables.
+  Creating a list of items and including variables:
 
       iex> result = Alfred.Result.new("title", "subtitle")
       iex> Alfred.ResultList.new([result, result, result], variables: %{foo: "bar"})
       %Alfred.ResultList{items: [%Alfred.Result{subtitle: "subtitle", title: "title"},
         %Alfred.Result{subtitle: "subtitle", title: "title"},
         %Alfred.Result{subtitle: "subtitle", title: "title"}],
+       variables: %{foo: "bar"}}
+
+  Creating a list of items with variables and a rerun value:
+
+      iex> result = Alfred.Result.new("title", "subtitle")
+      iex> Alfred.ResultList.new([result, result, result], variables: %{foo: "bar"}, rerun: 3.0)
+      %Alfred.ResultList{items: [%Alfred.Result{subtitle: "subtitle", title: "title"},
+        %Alfred.Result{subtitle: "subtitle", title: "title"},
+        %Alfred.Result{subtitle: "subtitle", title: "title"}],
+       rerun: 3.0,
        variables: %{foo: "bar"}}
   """
   def new(items \\ [], options \\ []) do
