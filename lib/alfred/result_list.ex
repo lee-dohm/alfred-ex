@@ -63,8 +63,13 @@ defmodule Alfred.ResultList do
     variables = Keyword.get(options, :variables, %{})
     rerun = Keyword.get(options, :rerun)
 
-    unless is_number(rerun) or is_nil(rerun), do: raise ArgumentError, "rerun must be a number or nil"
-    if is_number(rerun) and (rerun < 1.0 or rerun > 5.0), do: raise ArgumentError, "rerun must be between 1.0 and 5.0 inclusive"
+    unless is_number(rerun) or is_nil(rerun) do
+      raise ArgumentError, "rerun must be a number or nil"
+    end
+
+    if is_number(rerun) and (rerun < 1.0 or rerun > 5.0) do
+      raise ArgumentError, "rerun must be between 1.0 and 5.0 inclusive"
+    end
 
     %__MODULE__{items: items, variables: variables, rerun: rerun}
   end
