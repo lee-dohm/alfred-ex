@@ -7,9 +7,9 @@ defmodule Alfred.ResultList do
   """
   alias Alfred.Result
 
-  @type t :: %__MODULE__{items: [Result.t], variables: %{optional(String.t) => String.t}}
+  @type t :: %__MODULE__{items: [Result.t], variables: %{optional(String.t) => String.t}, rerun: float | nil}
 
-  defstruct items: [], variables: %{}
+  defstruct items: [], rerun: nil, variables: %{}
 
   @doc """
   Creates a new list from a single `Result`.
@@ -22,7 +22,7 @@ defmodule Alfred.ResultList do
   def new(item) when is_map(item), do: new([item])
 
   @doc """
-  Creates a new list.
+  Creates a new result list.
 
   ## Examples
 
@@ -43,8 +43,12 @@ defmodule Alfred.ResultList do
         %Alfred.Result{subtitle: "subtitle", title: "title"}],
        variables: %{foo: "bar"}}
   """
-  def new(items \\ [], variables \\ %{}) do
-    %__MODULE__{items: items, variables: variables}
+  def new(items \\ [], variables \\ %{}, options \\ []) do
+    rerun = Keyword.get(options, :rerun)
+    unless is_number(rerun) or is_nil(rerun), do: raise ArgumentError, "rerun must be a number or nil"
+    if is_number(rerun) and (rerun < 1.0 or rerun > 5.0), do: raise ArgumentError, "rerun must be between 1.0 and 5.0 inclusive"
+
+    %__MODULE__{items: items, variables: variables, rerun: rerun}
   end
 
   @doc """
@@ -58,9 +62,27 @@ defmodule Alfred.ResultList do
   end
 
   defp convert_result_list(list) do
-    case Enum.count(list.variables) do
-      0 -> %{items: convert_items(list.items)}
-      _ -> %{items: convert_items(list.items), variables: list.variables}
+    %{}
+    |> insert_items(list)
+    |> insert_variables(list)
+    |> insert_rerun(list)
+  end
+
+  defp insert_items(map, %{items: items}) do
+    Map.put(map, :items, convert_items(items))
+  end
+
+  defp insert_variables(map, %{variables: variables}) do
+    case Enum.count(variables) do
+      0 -> map
+      _ -> Map.put(map, :variables, variables)
+    end
+  end
+
+  defp insert_rerun(map, %{rerun: rerun}) do
+    case rerun do
+      nil -> map
+      _ -> Map.put(map, :rerun, rerun)
     end
   end
 
