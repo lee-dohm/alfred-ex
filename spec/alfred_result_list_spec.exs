@@ -21,6 +21,10 @@ defmodule Alfred.ResultList.Spec do
       expect list.variables |> to(have_length 0)
     end
 
+    it "throws an error when given something that isn't a Result" do
+      expect fn -> ResultList.new(5) end |> to(raise_exception FunctionClauseError)
+    end
+
     it "creates a list of Result items" do
       item = Result.new("title", "subtitle")
       list = ResultList.new([item, item, item])

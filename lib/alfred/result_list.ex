@@ -59,7 +59,7 @@ defmodule Alfred.ResultList do
        rerun: 3.0,
        variables: %{foo: "bar"}}
   """
-  def new(items \\ [], options \\ []) do
+  def new(items \\ [], options \\ []) when is_list(items) do
     variables = Keyword.get(options, :variables, %{})
     rerun = Keyword.get(options, :rerun)
 
