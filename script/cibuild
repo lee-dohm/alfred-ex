@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+[ -z "$DEBUG" ] || set -x
+
+export MIX_ENV="test"
+
+script/bootstrap
+
+# if [ -n "$TRAVIS" ]; then
+#   mix coveralls.travis
+# else
+#   mix test
+# fi
+
+mix espec
