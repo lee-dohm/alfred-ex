@@ -47,8 +47,7 @@ defmodule Alfred.Result do
     ensure_not_blank(title, :title)
     ensure_not_blank(subtitle, :subtitle)
 
-    %__MODULE__{title: title, subtitle: subtitle}
-    |> add_options(options)
+    add_options(%__MODULE__{title: title, subtitle: subtitle}, options)
   end
 
   @doc """
