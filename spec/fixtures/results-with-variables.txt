@@ -1,0 +1,1 @@
+{"variables":{"foo":"bar","baz":"quux","bar":"baz"},"items":[{"title":"title","subtitle":"subtitle"},{"title":"title","subtitle":"subtitle"},{"title":"title","subtitle":"subtitle"}]}
