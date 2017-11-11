@@ -3,6 +3,7 @@
 [![Hex Version](https://img.shields.io/hexpm/v/alfred.svg)](https://hex.pm/packages/alfred)
 [![API Docs](https://img.shields.io/badge/api-docs-green.svg)](https://hexdocs.pm/alfred/)
 [![License](https://img.shields.io/github/license/lee-dohm/alfred.ex.svg)](https://github.com/lee-dohm/alfred.ex/blob/master/LICENSE.md)
+[![Ebert](https://ebertapp.io/github/lee-dohm/alfred-ex.svg)](https://ebertapp.io/github/lee-dohm/alfred-ex)
 
 A library for interoperating with [Alfred](http://www.alfredapp.com), intended to make it easy to create tools and workflow extensions for Alfred in Elixir.
 
