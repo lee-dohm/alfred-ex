@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## **v0.3.0** &mdash; *2017-11-11*
+
+### Added
+
+* [PR #4](https://github.com/lee-dohm/alfred-ex/pull/4) added result list support
+
 ## **v0.2.0** &mdash; *2017-09-19*
 
 ### Added
