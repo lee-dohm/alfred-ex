@@ -14,7 +14,9 @@ by adding `alfred` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:alfred, "~> 0.3.0"}]
+  [
+    {:alfred, "~> 0.3.0"}
+  ]
 end
 ```
 
