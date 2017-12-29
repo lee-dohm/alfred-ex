@@ -1,7 +1,7 @@
 defmodule Alfred.Mixfile do
   use Mix.Project
 
-  @version "0.3.0"
+  @version String.trim(File.read!("VERSION.md"))
 
   def project do
     [
