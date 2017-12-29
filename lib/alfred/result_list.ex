@@ -12,17 +12,6 @@ defmodule Alfred.ResultList do
   defstruct items: [], rerun: nil, variables: %{}
 
   @doc """
-  Creates a new list from a single `Result`.
-
-  ## Examples
-
-      iex> Alfred.ResultList.new(Alfred.Result.new("title", "subtitle"))
-      %Alfred.ResultList{items: [%Alfred.Result{subtitle: "subtitle", title: "title"}]}
-  """
-  @spec new(Result.t) :: t
-  def new(item) when is_map(item), do: new([item])
-
-  @doc """
   Creates a new result list.
 
   ## Options
@@ -61,12 +50,18 @@ defmodule Alfred.ResultList do
        variables: %{foo: "bar"}}
   """
   @spec new([Result.t], Keyword.t) :: t
-  def new(items \\ [], options \\ []) when is_list(items) do
+  def new(items \\ [], options \\ [])
+
+  def new(items, options) when is_list(items) do
     variables = variables_option(options)
     rerun = rerun_option(options)
 
     %__MODULE__{items: items, variables: variables, rerun: rerun}
   end
+
+  def new(map, options) when is_map(map), do: new([map], options)
+
+  def new(value, _), do: raise ArgumentError, "items must be an `Alfred.Result` or a list, you gave #{inspect value} instead"
 
   @doc """
   Converts the given list to the expected output format.

@@ -29,13 +29,17 @@ defmodule Alfred.Result do
 
   Basic result:
 
-      iex> Alfred.Result.new("title", "subtitle")
-      %Alfred.Result{subtitle: "subtitle", title: "title"}
+  ```
+  iex> Alfred.Result.new("title", "subtitle")
+  %Alfred.Result{subtitle: "subtitle", title: "title"}
+  ```
 
   Result with some optional attributes:
 
-      iex> Alfred.Result.new("title", "subtitle", arg: "output", valid: false, uid: "test")
-      %Alfred.Result{arg: "output", subtitle: "subtitle", title: "title", uid: "test", valid: false}
+  ```
+  iex> Alfred.Result.new("title", "subtitle", arg: "output", valid: false, uid: "test")
+  %Alfred.Result{arg: "output", subtitle: "subtitle", title: "title", uid: "test", valid: false}
+  ```
   """
   @spec new(String.t, String.t, Keyword.t) :: t
   def new(title, subtitle, options \\ [])

@@ -1,4 +1,4 @@
-defmodule Spec.Helpers do
+defmodule Test.Helpers do
   def fixture_path do
     Path.expand("fixtures", __DIR__)
   end
@@ -25,12 +25,4 @@ defmodule Spec.Helpers do
   end
 end
 
-ESpec.configure fn(config) ->
-  config.before fn(tags) ->
-    {:shared, hello: :world, tags: tags}
-  end
-
-  config.finally fn(_shared) ->
-    :ok
-  end
-end
+ExUnit.start()
