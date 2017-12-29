@@ -4,7 +4,9 @@ defmodule Alfred do
   create tools and workflow extensions for Alfred in Elixir.
 
   This module contains functions to access the
-  [Alfred Script Environment variables](https://www.alfredapp.com/help/workflows/script-environment-variables/).
+  [Alfred Script Environment variables][script-environment].
+
+  [script-environment]: https://www.alfredapp.com/help/workflows/script-environment-variables/
   """
 
   @type preferences :: %{localhash: String.t, path: String.t}

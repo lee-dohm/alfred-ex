@@ -16,4 +16,4 @@ script/bootstrap
 #   mix test
 # fi
 
-mix espec
+mix test

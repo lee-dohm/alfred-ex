@@ -12,17 +12,6 @@ defmodule Alfred.ResultList do
   defstruct items: [], rerun: nil, variables: %{}
 
   @doc """
-  Creates a new list from a single `Result`.
-
-  ## Examples
-
-      iex> Alfred.ResultList.new(Alfred.Result.new("title", "subtitle"))
-      %Alfred.ResultList{items: [%Alfred.Result{subtitle: "subtitle", title: "title"}]}
-  """
-  @spec new(Result.t) :: t
-  def new(item) when is_map(item), do: new([item])
-
-  @doc """
   Creates a new result list.
 
   ## Options
@@ -61,24 +50,25 @@ defmodule Alfred.ResultList do
        variables: %{foo: "bar"}}
   """
   @spec new([Result.t], Keyword.t) :: t
-  def new(items \\ [], options \\ []) when is_list(items) do
-    variables = Keyword.get(options, :variables, %{})
-    rerun = Keyword.get(options, :rerun)
+  def new(items \\ [], options \\ [])
 
-    unless is_number(rerun) or is_nil(rerun) do
-      raise ArgumentError, "rerun must be a number or nil"
-    end
-
-    if is_number(rerun) and (rerun < 1.0 or rerun > 5.0) do
-      raise ArgumentError, "rerun must be between 1.0 and 5.0 inclusive"
-    end
+  def new(items, options) when is_list(items) do
+    variables = variables_option(options)
+    rerun = rerun_option(options)
 
     %__MODULE__{items: items, variables: variables, rerun: rerun}
   end
 
+  def new(map, options) when is_map(map), do: new([map], options)
+
+  def new(value, _), do: raise ArgumentError, "items must be an `Alfred.Result` or a list, you gave #{inspect value} instead"
+
   @doc """
-  Converts the given list to the
-  [expected JSON output format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/).
+  Converts the given list to the expected output format.
+
+  See the Alfred documentation on [the JSON output format.][json-output]
+
+  [json-output]: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
   """
   @spec to_json(t) :: String.t
   def to_json(list) do
@@ -87,33 +77,15 @@ defmodule Alfred.ResultList do
     |> Poison.encode
   end
 
+  defp convert_items(items) do
+    Enum.map(items, fn(item) -> convert_item(item) end)
+  end
+
   defp convert_result_list(list) do
     %{}
     |> insert_items(list)
     |> insert_variables(list)
     |> insert_rerun(list)
-  end
-
-  defp insert_items(map, %{items: items}) do
-    Map.put(map, :items, convert_items(items))
-  end
-
-  defp insert_variables(map, %{variables: variables}) do
-    case Enum.count(variables) do
-      0 -> map
-      _ -> Map.put(map, :variables, variables)
-    end
-  end
-
-  defp insert_rerun(map, %{rerun: rerun}) do
-    case rerun do
-      nil -> map
-      _ -> Map.put(map, :rerun, rerun)
-    end
-  end
-
-  defp convert_items(items) do
-    Enum.map(items, fn(item) -> convert_item(item) end)
   end
 
   defp convert_item(struct) do
@@ -124,4 +96,42 @@ defmodule Alfred.ResultList do
       end
     end)
   end
+
+  defp insert_items(map, %{items: items}) do
+    Map.put(map, :items, convert_items(items))
+  end
+
+  defp insert_rerun(map, %{rerun: rerun}) do
+    case rerun do
+      nil -> map
+      _ -> Map.put(map, :rerun, rerun)
+    end
+  end
+
+  defp insert_variables(map, %{variables: variables}) do
+    case Enum.count(variables) do
+      0 -> map
+      _ -> Map.put(map, :variables, variables)
+    end
+  end
+
+  defp rerun_option(options) do
+    options
+    |> Keyword.get(:rerun)
+    |> validate_rerun_option
+  end
+
+  defp validate_rerun_option(nil), do: nil
+
+  defp validate_rerun_option(rerun) when not is_number(rerun) do
+    raise ArgumentError, ":rerun must be a number or nil"
+  end
+
+  defp validate_rerun_option(rerun) when rerun < 1.0 or rerun > 5.0 do
+    raise ArgumentError, ":rerun must be between 1.0 and 5.0 inclusive"
+  end
+
+  defp validate_rerun_option(rerun), do: rerun
+
+  defp variables_option(options), do: Keyword.get(options, :variables, %{})
 end
