@@ -9,9 +9,9 @@ defmodule Alfred do
   [script-environment]: https://www.alfredapp.com/help/workflows/script-environment-variables/
   """
 
-  @type preferences :: %{localhash: String.t, path: String.t}
-  @type theme :: %{background_color: String.t, id: String.t, selection_background_color: String.t, subtext: String.t}
-  @type workflow :: %{bundleid: String.t, cache_path: String.t, data_path: String.t, name: String.t, uid: String.t, version: Version.t, version_text: String.t}
+  alias Alfred.Preferences
+  alias Alfred.Theme
+  alias Alfred.Workflow
 
   @doc """
   Retrieves the Alfred version build number.
@@ -37,40 +37,16 @@ defmodule Alfred do
   end
 
   @doc """
-  Retrieves the Alfred preferences information.
-
-  Returns a map with the following keys:
-
-  * `:path` &mdash; from environment `alfred_preferences`
-  * `:localhash` &mdash; from environment `alfred_preferences_localhash`
+  Retrieves the Alfred preferences information as `Alfred.Preferences`.
   """
-  @spec preferences_info :: preferences
-  def preferences_info do
-    %{
-      path: System.get_env("alfred_preferences"),
-      localhash: System.get_env("alfred_preferences_localhash")
-    }
-  end
+  @spec preferences_info :: Preferences.t
+  def preferences_info, do: Preferences.new()
 
   @doc """
-  Retrieves the Alfred theme information.
-
-  Returns a map with the following keys:
-
-  * `:background_color` &mdash; from environment `alfred_theme_background`
-  * `:id` &mdash; from environment `alfred_theme`
-  * `:selection_background_color` &mdash; from environment `alfred_theme_selection_background`
-  * `:subtext` &mdash; from environment `alfred_theme_subtext`
+  Retrieves the Alfred theme information as `Alfred.Theme`.
   """
-  @spec theme_info :: theme
-  def theme_info do
-    %{
-      background_color: System.get_env("alfred_theme_background"),
-      id: System.get_env("alfred_theme"),
-      selection_background_color: System.get_env("alfred_theme_selection_background"),
-      subtext: System.get_env("alfred_theme_subtext")
-    }
-  end
+  @spec theme_info :: Theme.t
+  def theme_info, do: Theme.new()
 
   @doc """
   Gets the Alfred version running the workflow.
@@ -93,30 +69,8 @@ defmodule Alfred do
   end
 
   @doc """
-  Retrieves the Alfred workflow information.
-
-  Returns a map with the following keys:
-
-  * `:bundleid` &mdash; from environment `alfred_workflow_bundleid`
-  * `:cache_path` &mdash; from environment `alfred_workflow_cache`
-  * `:data_path` &mdash; from environment `alfred_workflow_data`
-  * `:name` &mdash; from environment `alfred_workflow_name`
-  * `:uid` &mdash; from environment `alfred_workflow_uid`
-  * `:version` &mdash; the information from `:version_text` parsed into a `Version` struct
-  * `:version_text` &mdash; from environment `alfred_workflow_version`
+  Retrieves the Alfred workflow information as `Alfred.Workflow`.
   """
-  @spec workflow_info :: workflow
-  def workflow_info do
-    version = System.get_env("alfred_workflow_version")
-
-    %{
-      bundleid: System.get_env("alfred_workflow_bundleid"),
-      cache_path: System.get_env("alfred_workflow_cache"),
-      data_path: System.get_env("alfred_workflow_data"),
-      name: System.get_env("alfred_workflow_name"),
-      uid: System.get_env("alfred_workflow_uid"),
-      version: Version.parse!(version),
-      version_text: version
-    }
-  end
+  @spec workflow_info :: Workflow.t
+  def workflow_info, do: Workflow.new()
 end
