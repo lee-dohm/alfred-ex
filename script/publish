@@ -6,7 +6,4 @@ cd "$(dirname "$0")/.."
 script/test
 script/docs
 
-mix version.up $1
-mix version.tag
-
 mix hex.publish
