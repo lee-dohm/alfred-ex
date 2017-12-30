@@ -13,4 +13,4 @@ mix version.inc $1
 version_text=v$(mix version.current)
 git commit -am "Release $version_text"
 git tag "$version_text"
-git push
+git push --tags master
