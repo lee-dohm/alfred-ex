@@ -3,6 +3,10 @@ defmodule AlfredTest do
 
   doctest Alfred
 
+  alias Alfred.Preferences
+  alias Alfred.Theme
+  alias Alfred.Workflow
+
   setup do
     original_env = System.get_env()
 
@@ -30,7 +34,11 @@ defmodule AlfredTest do
       System.put_env("alfred_preferences", "something-interesting")
       System.put_env("alfred_preferences_localhash", "somehash")
 
-      assert Alfred.preferences_info() == %{path: "something-interesting", localhash: "somehash"}
+      info = Alfred.preferences_info()
+
+      assert %Preferences{} = info
+      assert info.path == "something-interesting"
+      assert info.localhash == "somehash"
     end
 
     test "theme info" do
@@ -41,6 +49,7 @@ defmodule AlfredTest do
 
       info = Alfred.theme_info()
 
+      assert %Theme{} = info
       assert info.id == "alfred.theme.custom.72EAAF2D-63D3-4398-958B-118E7AC63990"
       assert info.background_color == "rgba(255,255,255,1.0)"
       assert info.selection_background_color == "rgba(255,255,255,1.0)"
@@ -80,6 +89,7 @@ defmodule AlfredTest do
 
       info = Alfred.workflow_info()
 
+      assert %Workflow{} = info
       assert info.bundleid == "com.lee-dohm.alfred"
       assert info.cache_path == "some-path"
       assert info.data_path == "some-other-path"
