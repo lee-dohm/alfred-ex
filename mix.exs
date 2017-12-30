@@ -1,7 +1,7 @@
 defmodule Alfred.Mixfile do
   use Mix.Project
 
-  @version String.trim(File.read!("VERSION.md"))
+  @version "0.3.0"
 
   def project do
     [
@@ -29,7 +29,8 @@ defmodule Alfred.Mixfile do
     [
       {:poison, "~> 3.1"},
       {:cmark, "> 0.0.0", only: :dev},
-      {:ex_doc, "> 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, "> 0.0.0", only: :dev, runtime: false},
+      {:version_tasks, "~> 0.10.29", only: :dev}
     ]
   end
 

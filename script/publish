@@ -6,8 +6,4 @@ cd "$(dirname "$0")/.."
 script/test
 script/docs
 
-version=$(cat VERSION.md)
-git tag v$version
-git push --tags
-
 mix hex.publish
