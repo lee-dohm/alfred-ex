@@ -49,8 +49,7 @@ defmodule Alfred.Mixfile do
         "README*",
         "LICENSE*",
         "CHANGELOG*",
-        "CODE_OF_CONDUCT*",
-        "VERSION*"
+        "CODE_OF_CONDUCT*"
       ],
       licenses: ["MIT"],
       maintainers: ["Lee Dohm"],
