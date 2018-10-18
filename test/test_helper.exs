@@ -17,10 +17,11 @@ defmodule Test.Helpers do
       ".exs" ->
         {result, _} = Code.eval_file(path)
         result
+
       _ ->
         path
-        |> File.read!
-        |> String.trim
+        |> File.read!()
+        |> String.trim()
     end
   end
 end

@@ -17,8 +17,15 @@ defmodule Alfred.Result do
 
   alias Alfred.ResultList
 
-  @type t :: %__MODULE__{arg: String.t, autocomplete: String.t, quicklookurl: String.t,
-                         title: String.t, subtitle: String.t, uid: String.t, valid: boolean}
+  @type t :: %__MODULE__{
+          arg: String.t(),
+          autocomplete: String.t(),
+          quicklookurl: String.t(),
+          title: String.t(),
+          subtitle: String.t(),
+          uid: String.t(),
+          valid: boolean
+        }
 
   defstruct [:title, :subtitle, :arg, :autocomplete, :quicklookurl, :uid, :valid]
 
@@ -41,11 +48,11 @@ defmodule Alfred.Result do
   %Alfred.Result{arg: "output", subtitle: "subtitle", title: "title", uid: "test", valid: false}
   ```
   """
-  @spec new(String.t, String.t, Keyword.t) :: t
+  @spec new(String.t(), String.t(), Keyword.t()) :: t
   def new(title, subtitle, options \\ [])
 
-  def new(nil, _, _), do: raise ArgumentError, "Result title is required"
-  def new(_, nil, _), do: raise ArgumentError, "Result subtitle is required"
+  def new(nil, _, _), do: raise(ArgumentError, "Result title is required")
+  def new(_, nil, _), do: raise(ArgumentError, "Result subtitle is required")
 
   def new(title, subtitle, options) do
     ensure_not_blank(title, :title)
@@ -66,30 +73,37 @@ defmodule Alfred.Result do
       quicklookurl: "http://www.example.com", subtitle: "http://www.example.com", title: "title",
       uid: "http://www.example.com", valid: nil}
   """
-  @spec new_url(String.t, String.t) :: t
-  def new_url(title, url), do: new(title, url, arg: url, autocomplete: title, quicklookurl: url, uid: url)
+  @spec new_url(String.t(), String.t()) :: t
+  def new_url(title, url),
+    do: new(title, url, arg: url, autocomplete: title, quicklookurl: url, uid: url)
 
   @doc """
   Converts the results to the [expected JSON output format](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/).
   """
-  @spec to_json(t) :: String.t
+  @spec to_json(t) :: String.t()
   def to_json(results) do
     results
-    |> ResultList.new
-    |> ResultList.to_json
+    |> ResultList.new()
+    |> ResultList.to_json()
   end
 
   defp add_options(struct, []), do: struct
-  defp add_options(struct, [{:uid, value} | rest]), do: add_options(add_uid_option(struct, value), rest)
-  defp add_options(struct, [{:valid, value} | rest]), do: add_options(add_valid_option(struct, value), rest)
-  defp add_options(struct, [{key, value} | rest]), do: add_options(Map.put(struct, key, value), rest)
+
+  defp add_options(struct, [{:uid, value} | rest]),
+    do: add_options(add_uid_option(struct, value), rest)
+
+  defp add_options(struct, [{:valid, value} | rest]),
+    do: add_options(add_valid_option(struct, value), rest)
+
+  defp add_options(struct, [{key, value} | rest]),
+    do: add_options(Map.put(struct, key, value), rest)
 
   defp add_uid_option(struct, value) when is_binary(value), do: Map.put(struct, :uid, value)
-  defp add_uid_option(_, _), do: raise ArgumentError, "uid must be a string value"
+  defp add_uid_option(_, _), do: raise(ArgumentError, "uid must be a string value")
 
   defp add_valid_option(struct, true), do: struct
   defp add_valid_option(struct, false), do: Map.put(struct, :valid, false)
-  defp add_valid_option(_, _), do: raise ArgumentError, "valid must be either true or false"
+  defp add_valid_option(_, _), do: raise(ArgumentError, "valid must be either true or false")
 
   defp ensure_not_blank(text, arg_name) do
     case String.trim(text) do
