@@ -15,13 +15,13 @@ defmodule Alfred.ResultListTest do
       :ok,
       result: result,
       result_list: [result, result, result],
-      variables: %{"foo": "bar", "bar": "baz", "baz": "quux"}
+      variables: %{foo: "bar", bar: "baz", baz: "quux"}
     }
   end
 
   describe "construction" do
     test "creates an empty list" do
-      list = ResultList.new
+      list = ResultList.new()
 
       assert length(list.items) == 0
       assert list.variables == %{}
@@ -48,7 +48,7 @@ defmodule Alfred.ResultListTest do
     test "creates a list with variables", %{result_list: result_list, variables: variables} do
       list = ResultList.new(result_list, variables: variables)
 
-      assert list.variables |> Map.keys |> Enum.count == 3
+      assert list.variables |> Map.keys() |> Enum.count() == 3
       assert list.variables.foo == "bar"
       assert list.variables.bar == "baz"
       assert list.variables.baz == "quux"
@@ -66,7 +66,9 @@ defmodule Alfred.ResultListTest do
       end
     end
 
-    test "raises an error if rerun is less than 1.0 or greater than 5.0", %{result_list: result_list} do
+    test "raises an error if rerun is less than 1.0 or greater than 5.0", %{
+      result_list: result_list
+    } do
       assert_raise ArgumentError, fn ->
         ResultList.new(result_list, rerun: 0.5)
       end
@@ -85,14 +87,19 @@ defmodule Alfred.ResultListTest do
       assert json == fixture("results-with-variables-and-rerun.txt")
     end
 
-    test "does not emit the variables key when no variables are present", %{result_list: result_list} do
+    test "does not emit the variables key when no variables are present", %{
+      result_list: result_list
+    } do
       list = ResultList.new(result_list)
       {:ok, json} = ResultList.to_json(list)
 
       assert json == fixture("multiple-results.txt")
     end
 
-    test "does not emit the rerun key when no rerun is present", %{result_list: result_list, variables: variables} do
+    test "does not emit the rerun key when no rerun is present", %{
+      result_list: result_list,
+      variables: variables
+    } do
       list = ResultList.new(result_list, variables: variables)
       {:ok, json} = ResultList.to_json(list)
 

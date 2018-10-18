@@ -7,7 +7,11 @@ defmodule Alfred.ResultList do
   """
   alias Alfred.Result
 
-  @type t :: %__MODULE__{items: [Result.t], variables: %{optional(String.t) => String.t}, rerun: float | nil}
+  @type t :: %__MODULE__{
+          items: [Result.t()],
+          variables: %{optional(String.t()) => String.t()},
+          rerun: float | nil
+        }
 
   defstruct items: [], rerun: nil, variables: %{}
 
@@ -49,7 +53,7 @@ defmodule Alfred.ResultList do
        rerun: 3.0,
        variables: %{foo: "bar"}}
   """
-  @spec new([Result.t], Keyword.t) :: t
+  @spec new([Result.t()], Keyword.t()) :: t
   def new(items \\ [], options \\ [])
 
   def new(items, options) when is_list(items) do
@@ -61,7 +65,12 @@ defmodule Alfred.ResultList do
 
   def new(map, options) when is_map(map), do: new([map], options)
 
-  def new(value, _), do: raise ArgumentError, "items must be an `Alfred.Result` or a list, you gave #{inspect value} instead"
+  def new(value, _),
+    do:
+      raise(
+        ArgumentError,
+        "items must be an `Alfred.Result` or a list, you gave #{inspect(value)} instead"
+      )
 
   @doc """
   Converts the given list to the expected output format.
@@ -70,15 +79,15 @@ defmodule Alfred.ResultList do
 
   [json-output]: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
   """
-  @spec to_json(t) :: String.t
+  @spec to_json(t) :: String.t()
   def to_json(list) do
     list
     |> convert_result_list
-    |> Poison.encode
+    |> Poison.encode()
   end
 
   defp convert_items(items) do
-    Enum.map(items, fn(item) -> convert_item(item) end)
+    Enum.map(items, fn item -> convert_item(item) end)
   end
 
   defp convert_result_list(list) do
@@ -89,7 +98,7 @@ defmodule Alfred.ResultList do
   end
 
   defp convert_item(struct) do
-    Enum.reduce(Map.keys(struct), %{}, fn(key, map) ->
+    Enum.reduce(Map.keys(struct), %{}, fn key, map ->
       case Map.get(struct, key) do
         nil -> map
         value -> Map.put(map, key, value)

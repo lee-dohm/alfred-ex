@@ -10,9 +10,9 @@ defmodule AlfredTest do
   setup do
     original_env = System.get_env()
 
-    on_exit fn ->
+    on_exit(fn ->
       System.put_env(original_env)
-    end
+    end)
 
     [original_env: original_env]
   end

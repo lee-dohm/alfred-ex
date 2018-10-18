@@ -18,7 +18,7 @@ defmodule Alfred do
 
   From the environment variable `alfred_version_build`.
   """
-  @spec build :: String.t
+  @spec build :: String.t()
   def build do
     System.get_env("alfred_version_build")
   end
@@ -39,13 +39,13 @@ defmodule Alfred do
   @doc """
   Retrieves the Alfred preferences information as `Alfred.Preferences`.
   """
-  @spec preferences_info :: Preferences.t
+  @spec preferences_info :: Preferences.t()
   def preferences_info, do: Preferences.new()
 
   @doc """
   Retrieves the Alfred theme information as `Alfred.Theme`.
   """
-  @spec theme_info :: Theme.t
+  @spec theme_info :: Theme.t()
   def theme_info, do: Theme.new()
 
   @doc """
@@ -53,7 +53,7 @@ defmodule Alfred do
 
   Returns a `Version` containing the version information parsed from environment `alfred_version`.
   """
-  @spec version :: Version.t
+  @spec version :: Version.t()
   def version do
     Version.parse!(version_text())
   end
@@ -63,7 +63,7 @@ defmodule Alfred do
 
   From the environment `alfred_version`.
   """
-  @spec version_text :: String.t
+  @spec version_text :: String.t()
   def version_text do
     System.get_env("alfred_version")
   end
@@ -71,6 +71,6 @@ defmodule Alfred do
   @doc """
   Retrieves the Alfred workflow information as `Alfred.Workflow`.
   """
-  @spec workflow_info :: Workflow.t
+  @spec workflow_info :: Workflow.t()
   def workflow_info, do: Workflow.new()
 end
